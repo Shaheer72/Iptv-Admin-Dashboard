@@ -26,8 +26,8 @@ export async function POST(req: NextRequest) {
     const ADMIN_PASS = process.env.ADMIN_PASSWORD || 'password';
 
     if (username === ADMIN_USER && password === ADMIN_PASS) {
-      // Generate a simple token
-      const token = Buffer.from(`${username}:${Date.now()}`).toString('base64');
+      // Stateless token: base64 of username:ADMIN_PASS (verifiable by server)
+      const token = Buffer.from(`${username}:${ADMIN_PASS}`).toString('base64');
       return NextResponse.json(
         { success: true, token, message: 'Login successful' },
         { status: 200 }

@@ -19,8 +19,16 @@ async function connectDB() {
 
 export async function POST(req: NextRequest) {
   try {
+    // If deploying to Vercel ensure MONGODB_URI is configured
+    if (!process.env.MONGODB_URI && (process.env.NODE_ENV === 'production' || process.env.VERCEL)) {
+      return NextResponse.json(
+        { success: false, message: 'MONGODB_URI not configured on server' },
+        { status: 500 }
+      );
+    }
+
     await connectDB();
-    
+
     const body = await req.json();
     const { fullName, phoneNumber, referralName } = body || {};
     
@@ -40,8 +48,9 @@ export async function POST(req: NextRequest) {
     );
   } catch (err) {
     console.error('Register error:', err);
+    const msg = (err as any)?.message ?? String(err);
     return NextResponse.json(
-      { success: false, message: 'Internal server error', error: String(err) },
+      { success: false, message: 'Internal server error', error: msg },
       { status: 500 }
     );
   }

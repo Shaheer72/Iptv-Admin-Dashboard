@@ -18,7 +18,17 @@ async function connectDB() {
 }
 
 function verifyToken(token: string): boolean {
-  return !!(token && token.length > 0);
+  try {
+    const decoded = Buffer.from(token, 'base64').toString('utf8');
+    const parts = decoded.split(':');
+    if (parts.length < 2) return false;
+    const [u, p] = parts;
+    const ADMIN_USER = process.env.ADMIN_USERNAME || 'admin';
+    const ADMIN_PASS = process.env.ADMIN_PASSWORD || 'password';
+    return u === ADMIN_USER && p === ADMIN_PASS;
+  } catch (e) {
+    return false;
+  }
 }
 
 export async function DELETE(

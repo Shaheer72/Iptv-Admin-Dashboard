@@ -1,8 +1,8 @@
 {
   "/_not-found/page": "/_not-found",
-  "/api/admin/login/route": "/api/admin/login",
   "/api/admin/users/[id]/route": "/api/admin/users/[id]",
   "/api/admin/users/route": "/api/admin/users",
+  "/api/admin/login/route": "/api/admin/login",
   "/api/register/route": "/api/register",
   "/favicon.ico/route": "/favicon.ico",
   "/admin/page": "/admin",
