@@ -1,0 +1,11 @@
+api/**
+server_legacy/**
+.next/**
+dist/**
+node_modules/**
+*.log
+*.local
+*.local.*
+*.env.local
+.env
+dist/

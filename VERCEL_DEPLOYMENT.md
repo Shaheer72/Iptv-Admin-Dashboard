@@ -37,6 +37,8 @@ The `NEXT_PUBLIC_API_URL` is now set to `/api` (relative path), which works on b
 - ✅ All API calls use relative paths that work on both dev and production
 - ✅ The old `api/server.ts` Express server is no longer needed for Vercel
 
+- ⚠️ There was a legacy `api/` Express server in the project root. To avoid Vercel treating it as standalone Serverless Functions (which conflicted with Next.js API routes), I copied it to `server_legacy/` and added `.vercelignore` to exclude the root `api/` and other build artifacts from deployments. If you need the legacy server for local debugging, run it manually from `server_legacy/`.
+
 ## Local Development
 
 ```bash
