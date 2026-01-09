@@ -62,9 +62,13 @@ export default function AdminDashboard({ onLogout, adminToken, isFullScreen = fa
     setError("");
     try {
       console.log('Fetching users with token:', adminToken);
-      const apiUrl = process.env.NEXT_PUBLIC_API_URL || "/api";
-      const response = await fetch(
-        `${apiUrl}/admin/users`,
+      // Prefer relative /api in the browser if NEXT_PUBLIC_API_URL points to localhost
+      const raw = process.env.NEXT_PUBLIC_API_URL;
+      const apiUrl = (typeof window !== 'undefined' && raw && (raw.includes('localhost') || raw.includes('127.0.0.1')))
+        ? '/api'
+        : (raw || '/api');
+
+      const response = await fetch(`${apiUrl}/admin/users`,
         {
           method: "GET",
           headers: {

@@ -61,9 +61,13 @@ export default function RegistrationModal({ isOpen, onClose }: RegistrationModal
     setIsSubmitting(true);
 
     try {
-      const apiUrl = process.env.NEXT_PUBLIC_API_URL || "/api";
-      const response = await fetch(
-        `${apiUrl}/register`,
+      // Prefer relative /api in the browser if NEXT_PUBLIC_API_URL points to localhost
+      const raw = process.env.NEXT_PUBLIC_API_URL;
+      const apiUrl = (typeof window !== 'undefined' && raw && (raw.includes('localhost') || raw.includes('127.0.0.1')))
+        ? '/api'
+        : (raw || '/api');
+
+      const response = await fetch(`${apiUrl}/register`,
         {
           method: "POST",
           headers: {

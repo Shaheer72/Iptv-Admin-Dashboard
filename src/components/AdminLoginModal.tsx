@@ -27,9 +27,13 @@ export default function AdminLoginModal({
     setIsSubmitting(true);
 
     try {
-      const apiUrl = process.env.NEXT_PUBLIC_API_URL || "/api";
-      const response = await fetch(
-        `${apiUrl}/admin/login`,
+      // Prefer relative /api in the browser if NEXT_PUBLIC_API_URL points to localhost
+      const raw = process.env.NEXT_PUBLIC_API_URL;
+      const apiUrl = (typeof window !== 'undefined' && raw && (raw.includes('localhost') || raw.includes('127.0.0.1')))
+        ? '/api'
+        : (raw || '/api');
+
+      const response = await fetch(`${apiUrl}/admin/login`,
         {
           method: "POST",
           headers: {
