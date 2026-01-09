@@ -62,8 +62,9 @@ export default function AdminDashboard({ onLogout, adminToken, isFullScreen = fa
     setError("");
     try {
       console.log('Fetching users with token:', adminToken);
+      const apiUrl = process.env.NEXT_PUBLIC_API_URL || "/api";
       const response = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000"}/api/admin/users`,
+        `${apiUrl}/admin/users`,
         {
           method: "GET",
           headers: {
@@ -94,8 +95,9 @@ export default function AdminDashboard({ onLogout, adminToken, isFullScreen = fa
     if (!confirm('Delete this user?')) return;
     setError('');
     try {
+      const apiUrl = process.env.NEXT_PUBLIC_API_URL || '/api';
       const resp = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000'}/api/admin/users/${id}`,
+        `${apiUrl}/admin/users/${id}`,
         {
           method: 'DELETE',
           headers: {

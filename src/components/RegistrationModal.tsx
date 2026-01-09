@@ -61,8 +61,9 @@ export default function RegistrationModal({ isOpen, onClose }: RegistrationModal
     setIsSubmitting(true);
 
     try {
+      const apiUrl = process.env.NEXT_PUBLIC_API_URL || "/api";
       const response = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000"}/api/register`,
+        `${apiUrl}/register`,
         {
           method: "POST",
           headers: {
