@@ -33,6 +33,15 @@ export default function AdminDashboard({ onLogout, adminToken, isFullScreen = fa
     }
   }, [adminToken]);
 
+  // Poll for changes every 5 seconds to reflect live MongoDB state
+  useEffect(() => {
+    if (!adminToken) return;
+    const id = setInterval(() => {
+      fetchUsers();
+    }, 5000);
+    return () => clearInterval(id);
+  }, [adminToken]);
+
   useEffect(() => {
     // Filter users based on search query
     if (searchQuery.trim() === "") {
@@ -78,6 +87,34 @@ export default function AdminDashboard({ onLogout, adminToken, isFullScreen = fa
       setError("Failed to fetch users. Please try again.");
     } finally {
       setIsLoading(false);
+    }
+  };
+
+  const deleteUser = async (id: string) => {
+    if (!confirm('Delete this user?')) return;
+    setError('');
+    try {
+      const resp = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000'}/api/admin/users/${id}`,
+        {
+          method: 'DELETE',
+          headers: {
+            'Content-Type': 'application/json',
+            'x-admin-token': adminToken,
+          },
+        }
+      );
+      const data = await resp.json();
+      if (data.success) {
+        // remove from state immediately
+        setUsers((prev) => prev.filter((u) => u._id !== id));
+        setFilteredUsers((prev) => prev.filter((u) => u._id !== id));
+      } else {
+        setError(data.message || 'Failed to delete user');
+      }
+    } catch (err) {
+      console.error('Delete user error:', err);
+      setError('Failed to delete user. Please try again.');
     }
   };
 
@@ -197,6 +234,7 @@ export default function AdminDashboard({ onLogout, adminToken, isFullScreen = fa
                       <td className="px-4 py-3 text-gray-400 text-xs">
                         {new Date(user.registrationDate).toLocaleString()}
                       </td>
+
                     </tr>
                   ))}
                 </tbody>

@@ -595,6 +595,22 @@ function AdminDashboard(param) {
     }["AdminDashboard.useEffect"], [
         adminToken
     ]);
+    // Poll for changes every 5 seconds to reflect live MongoDB state
+    (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useEffect"])({
+        "AdminDashboard.useEffect": ()=>{
+            if (!adminToken) return;
+            const id = setInterval({
+                "AdminDashboard.useEffect.id": ()=>{
+                    fetchUsers();
+                }
+            }["AdminDashboard.useEffect.id"], 5000);
+            return ({
+                "AdminDashboard.useEffect": ()=>clearInterval(id)
+            })["AdminDashboard.useEffect"];
+        }
+    }["AdminDashboard.useEffect"], [
+        adminToken
+    ]);
     (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useEffect"])({
         "AdminDashboard.useEffect": ()=>{
             // Filter users based on search query
@@ -639,6 +655,30 @@ function AdminDashboard(param) {
             setIsLoading(false);
         }
     };
+    const deleteUser = async (id)=>{
+        if (!confirm('Delete this user?')) return;
+        setError('');
+        try {
+            const resp = await fetch("".concat(("TURBOPACK compile-time value", "http://localhost:5000") || 'http://localhost:5000', "/api/admin/users/").concat(id), {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'x-admin-token': adminToken
+                }
+            });
+            const data = await resp.json();
+            if (data.success) {
+                // remove from state immediately
+                setUsers((prev)=>prev.filter((u)=>u._id !== id));
+                setFilteredUsers((prev)=>prev.filter((u)=>u._id !== id));
+            } else {
+                setError(data.message || 'Failed to delete user');
+            }
+        } catch (err) {
+            console.error('Delete user error:', err);
+            setError('Failed to delete user. Please try again.');
+        }
+    };
     const handleLogout = ()=>{
         onLogout();
         if (isFullScreen) {
@@ -662,12 +702,12 @@ function AdminDashboard(param) {
                                         className: "h-6 w-6 text-yellow-400"
                                     }, void 0, false, {
                                         fileName: "[project]/src/components/AdminDashboard.tsx",
-                                        lineNumber: 98,
+                                        lineNumber: 135,
                                         columnNumber: 15
                                     }, this)
                                 }, void 0, false, {
                                     fileName: "[project]/src/components/AdminDashboard.tsx",
-                                    lineNumber: 97,
+                                    lineNumber: 134,
                                     columnNumber: 13
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h2", {
@@ -675,13 +715,13 @@ function AdminDashboard(param) {
                                     children: "Admin Dashboard"
                                 }, void 0, false, {
                                     fileName: "[project]/src/components/AdminDashboard.tsx",
-                                    lineNumber: 100,
+                                    lineNumber: 137,
                                     columnNumber: 13
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/src/components/AdminDashboard.tsx",
-                            lineNumber: 96,
+                            lineNumber: 133,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -692,20 +732,20 @@ function AdminDashboard(param) {
                                     className: "h-4 w-4"
                                 }, void 0, false, {
                                     fileName: "[project]/src/components/AdminDashboard.tsx",
-                                    lineNumber: 106,
+                                    lineNumber: 143,
                                     columnNumber: 13
                                 }, this),
                                 "Logout"
                             ]
                         }, void 0, true, {
                             fileName: "[project]/src/components/AdminDashboard.tsx",
-                            lineNumber: 102,
+                            lineNumber: 139,
                             columnNumber: 11
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "[project]/src/components/AdminDashboard.tsx",
-                    lineNumber: 95,
+                    lineNumber: 132,
                     columnNumber: 9
                 }, this),
                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -719,7 +759,7 @@ function AdminDashboard(param) {
                                     children: users.length
                                 }, void 0, false, {
                                     fileName: "[project]/src/components/AdminDashboard.tsx",
-                                    lineNumber: 114,
+                                    lineNumber: 151,
                                     columnNumber: 13
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -727,13 +767,13 @@ function AdminDashboard(param) {
                                     children: "Total Registrations"
                                 }, void 0, false, {
                                     fileName: "[project]/src/components/AdminDashboard.tsx",
-                                    lineNumber: 117,
+                                    lineNumber: 154,
                                     columnNumber: 13
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/src/components/AdminDashboard.tsx",
-                            lineNumber: 113,
+                            lineNumber: 150,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -744,7 +784,7 @@ function AdminDashboard(param) {
                                     children: filteredUsers.length
                                 }, void 0, false, {
                                     fileName: "[project]/src/components/AdminDashboard.tsx",
-                                    lineNumber: 120,
+                                    lineNumber: 157,
                                     columnNumber: 13
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -752,13 +792,13 @@ function AdminDashboard(param) {
                                     children: "Displayed Users"
                                 }, void 0, false, {
                                     fileName: "[project]/src/components/AdminDashboard.tsx",
-                                    lineNumber: 123,
+                                    lineNumber: 160,
                                     columnNumber: 13
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/src/components/AdminDashboard.tsx",
-                            lineNumber: 119,
+                            lineNumber: 156,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -769,7 +809,7 @@ function AdminDashboard(param) {
                                     children: new Date().toLocaleDateString()
                                 }, void 0, false, {
                                     fileName: "[project]/src/components/AdminDashboard.tsx",
-                                    lineNumber: 126,
+                                    lineNumber: 163,
                                     columnNumber: 13
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -777,19 +817,19 @@ function AdminDashboard(param) {
                                     children: "Today's Date"
                                 }, void 0, false, {
                                     fileName: "[project]/src/components/AdminDashboard.tsx",
-                                    lineNumber: 129,
+                                    lineNumber: 166,
                                     columnNumber: 13
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/src/components/AdminDashboard.tsx",
-                            lineNumber: 125,
+                            lineNumber: 162,
                             columnNumber: 11
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "[project]/src/components/AdminDashboard.tsx",
-                    lineNumber: 112,
+                    lineNumber: 149,
                     columnNumber: 9
                 }, this),
                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -801,7 +841,7 @@ function AdminDashboard(param) {
                                 className: "absolute left-3 top-3 h-5 w-5 text-gray-500"
                             }, void 0, false, {
                                 fileName: "[project]/src/components/AdminDashboard.tsx",
-                                lineNumber: 136,
+                                lineNumber: 173,
                                 columnNumber: 13
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
@@ -812,18 +852,18 @@ function AdminDashboard(param) {
                                 className: "w-full rounded-lg bg-gray-800 pl-10 pr-4 py-2 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-yellow-500"
                             }, void 0, false, {
                                 fileName: "[project]/src/components/AdminDashboard.tsx",
-                                lineNumber: 137,
+                                lineNumber: 174,
                                 columnNumber: 13
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/src/components/AdminDashboard.tsx",
-                        lineNumber: 135,
+                        lineNumber: 172,
                         columnNumber: 11
                     }, this)
                 }, void 0, false, {
                     fileName: "[project]/src/components/AdminDashboard.tsx",
-                    lineNumber: 134,
+                    lineNumber: 171,
                     columnNumber: 9
                 }, this),
                 error && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -831,7 +871,7 @@ function AdminDashboard(param) {
                     children: error
                 }, void 0, false, {
                     fileName: "[project]/src/components/AdminDashboard.tsx",
-                    lineNumber: 149,
+                    lineNumber: 186,
                     columnNumber: 11
                 }, this),
                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -841,7 +881,7 @@ function AdminDashboard(param) {
                             children: "User Registrations"
                         }, void 0, false, {
                             fileName: "[project]/src/components/AdminDashboard.tsx",
-                            lineNumber: 156,
+                            lineNumber: 193,
                             columnNumber: 11
                         }, this),
                         isLoading ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -851,12 +891,12 @@ function AdminDashboard(param) {
                                 children: "Loading users..."
                             }, void 0, false, {
                                 fileName: "[project]/src/components/AdminDashboard.tsx",
-                                lineNumber: 161,
+                                lineNumber: 198,
                                 columnNumber: 15
                             }, this)
                         }, void 0, false, {
                             fileName: "[project]/src/components/AdminDashboard.tsx",
-                            lineNumber: 160,
+                            lineNumber: 197,
                             columnNumber: 13
                         }, this) : filteredUsers.length > 0 ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                             className: "overflow-x-auto rounded-lg border border-white/10",
@@ -872,7 +912,7 @@ function AdminDashboard(param) {
                                                     children: "Full Name"
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/components/AdminDashboard.tsx",
-                                                    lineNumber: 168,
+                                                    lineNumber: 205,
                                                     columnNumber: 21
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("th", {
@@ -880,7 +920,7 @@ function AdminDashboard(param) {
                                                     children: "Phone Number"
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/components/AdminDashboard.tsx",
-                                                    lineNumber: 171,
+                                                    lineNumber: 208,
                                                     columnNumber: 21
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("th", {
@@ -888,7 +928,7 @@ function AdminDashboard(param) {
                                                     children: "Referral Name"
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/components/AdminDashboard.tsx",
-                                                    lineNumber: 174,
+                                                    lineNumber: 211,
                                                     columnNumber: 21
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("th", {
@@ -896,18 +936,18 @@ function AdminDashboard(param) {
                                                     children: "Registered At"
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/components/AdminDashboard.tsx",
-                                                    lineNumber: 177,
+                                                    lineNumber: 214,
                                                     columnNumber: 21
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/src/components/AdminDashboard.tsx",
-                                            lineNumber: 167,
+                                            lineNumber: 204,
                                             columnNumber: 19
                                         }, this)
                                     }, void 0, false, {
                                         fileName: "[project]/src/components/AdminDashboard.tsx",
-                                        lineNumber: 166,
+                                        lineNumber: 203,
                                         columnNumber: 17
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("tbody", {
@@ -919,7 +959,7 @@ function AdminDashboard(param) {
                                                         children: user.fullName
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/components/AdminDashboard.tsx",
-                                                        lineNumber: 188,
+                                                        lineNumber: 225,
                                                         columnNumber: 23
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
@@ -927,7 +967,7 @@ function AdminDashboard(param) {
                                                         children: user.phoneNumber
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/components/AdminDashboard.tsx",
-                                                        lineNumber: 191,
+                                                        lineNumber: 228,
                                                         columnNumber: 23
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
@@ -935,7 +975,7 @@ function AdminDashboard(param) {
                                                         children: user.referralName || "-"
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/components/AdminDashboard.tsx",
-                                                        lineNumber: 194,
+                                                        lineNumber: 231,
                                                         columnNumber: 23
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
@@ -943,29 +983,29 @@ function AdminDashboard(param) {
                                                         children: new Date(user.registrationDate).toLocaleString()
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/components/AdminDashboard.tsx",
-                                                        lineNumber: 197,
+                                                        lineNumber: 234,
                                                         columnNumber: 23
                                                     }, this)
                                                 ]
                                             }, user._id, true, {
                                                 fileName: "[project]/src/components/AdminDashboard.tsx",
-                                                lineNumber: 184,
+                                                lineNumber: 221,
                                                 columnNumber: 21
                                             }, this))
                                     }, void 0, false, {
                                         fileName: "[project]/src/components/AdminDashboard.tsx",
-                                        lineNumber: 182,
+                                        lineNumber: 219,
                                         columnNumber: 17
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/components/AdminDashboard.tsx",
-                                lineNumber: 165,
+                                lineNumber: 202,
                                 columnNumber: 15
                             }, this)
                         }, void 0, false, {
                             fileName: "[project]/src/components/AdminDashboard.tsx",
-                            lineNumber: 164,
+                            lineNumber: 201,
                             columnNumber: 13
                         }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                             className: "rounded-lg border border-white/10 bg-white/5 p-8 text-center",
@@ -974,7 +1014,7 @@ function AdminDashboard(param) {
                                     className: "mx-auto h-12 w-12 text-gray-500 mb-3"
                                 }, void 0, false, {
                                     fileName: "[project]/src/components/AdminDashboard.tsx",
-                                    lineNumber: 207,
+                                    lineNumber: 245,
                                     columnNumber: 15
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -982,34 +1022,34 @@ function AdminDashboard(param) {
                                     children: searchQuery ? "No users found matching your search." : "No registrations yet."
                                 }, void 0, false, {
                                     fileName: "[project]/src/components/AdminDashboard.tsx",
-                                    lineNumber: 208,
+                                    lineNumber: 246,
                                     columnNumber: 15
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/src/components/AdminDashboard.tsx",
-                            lineNumber: 206,
+                            lineNumber: 244,
                             columnNumber: 13
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "[project]/src/components/AdminDashboard.tsx",
-                    lineNumber: 155,
+                    lineNumber: 192,
                     columnNumber: 9
                 }, this)
             ]
         }, void 0, true, {
             fileName: "[project]/src/components/AdminDashboard.tsx",
-            lineNumber: 93,
+            lineNumber: 130,
             columnNumber: 7
         }, this)
     }, void 0, false, {
         fileName: "[project]/src/components/AdminDashboard.tsx",
-        lineNumber: 92,
+        lineNumber: 129,
         columnNumber: 5
     }, this);
 }
-_s(AdminDashboard, "XZQMBn88ZvFa57JLa31JURcKLGg=", false, function() {
+_s(AdminDashboard, "d2mViJb4EyhLL2BvXp5tLsbLA9A=", false, function() {
     return [
         __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$navigation$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useRouter"]
     ];
